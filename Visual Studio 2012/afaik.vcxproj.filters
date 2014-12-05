@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="../Source/Main.cpp" />
+    <ClCompile Include="../Source/Window.cpp" />
+    <ClCompile Include="../Source/UIComponent.cpp" />
+    <ClCompile Include="../Source/TextComponent.cpp" />
+    <ClCompile Include="../Source\ImageComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../Source/Window.h" />
+    <ClInclude Include="../Source/UIComponent.h" />
+    <ClInclude Include="../Source/TextComponent.h" />
+    <ClInclude Include="../Source/UIEvent.h" />
+    <ClInclude Include="../Source\ImageComponent.h" />
+  </ItemGroup>
+</Project>
