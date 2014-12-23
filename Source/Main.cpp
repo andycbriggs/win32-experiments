@@ -1,64 +1,228 @@
 ﻿#include <windows.h>
 #include <string>
 
+#include <stdio.h>
+
 #include "Window.h"
 #include "TextComponent.h"
 #include "ImageComponent.h"
 
-int main(int argc, char *argv[])
+#include "TCPSocket.h"
+
+class Server
 {
+  std::shared_ptr<Window> window;
+  std::shared_ptr<TCPSocket> socket;
 
-  Window window = Window();
-  window.setTitle(L"Sketchbook!");
-  window.setSize(640, 240);
-  window.show();
+  std::vector<std::shared_ptr<TCPSocket>> clients;
 
-  std::shared_ptr<TextComponent> title = std::make_shared<TextComponent>();
-  title->setPosition(10, 10);
-  title->setFontSize(32);
-  title->setColor(236, 240, 241);
-  title->setText(L"Hello World! 你好世界！");
-  title->on(UIEvent::MouseOver, [&window, title] (UIEvent ev) {
-    window.setTitle(L"Woah shit!");
-  });
-  title->on(UIEvent::MouseOut, [&window, title] (UIEvent ev) {
-    window.setTitle(L"Awwww :(");
-  });
-  window.addUIComponent(title);
-
-  std::shared_ptr<TextComponent> subtitle = std::make_shared<TextComponent>();
-  subtitle->setPosition(10, 50);
-  subtitle->setFontSize(24);
-  subtitle->setColor(189, 195, 199);
-  subtitle->setText(L"What is Brian drinking?");
-  window.addUIComponent(subtitle);
-
-  std::shared_ptr<ImageComponent> image = std::make_shared<ImageComponent>();
-  image->setPosition(420, 20);
-  image->setSize(160, 200);
-  image->loadImage(L"../Assets/brian.png");
-  image->on(UIEvent::MouseOver, [image, subtitle] (UIEvent ev) {
-    image->loadImage(L"../Assets/brian2.png");
-    subtitle->setText(L"Brian is drinking wine");
-  });
-  image->on(UIEvent::MouseOut, [image, subtitle] (UIEvent ev) {
-    image->loadImage(L"../Assets/brian.png");
-    subtitle->setText(L"Brian is drinking champagne");
-  });
-  window.addUIComponent(image);
-
-
-  UIEvent ev;
-
-  while (window.isOpen())
+public:
+  void init()
   {
-    while(window.pollEvents(ev))
+    window = make_shared<Window>();
+    window->setTitle(L"Server!");
+    window->setSize(640, 240);
+    window->show();
+
+    std::shared_ptr<TextComponent> title = std::make_shared<TextComponent>();
+    title->setPosition(10, 10);
+    title->setFontSize(32);
+    title->setColor(236, 240, 241);
+    title->setText(L"Server");
+
+    std::shared_ptr<TextComponent> votes = std::make_shared<TextComponent>();
+    votes->setPosition(10, 100);
+    votes->setFontSize(24);
+    votes->setColor(236, 240, 241);
+    votes->setText(L"Votes");
+
+    socket = make_shared<TCPSocket>();
+    socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+      title->setText(std::to_wstring(ev.error));
+    });
+    socket->on(SocketEvent::Connection, [=] (SocketEvent ev) {
+      title->setText(L"Connection Received");
+      clients.push_back(ev.socket);
+      ev.socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
+        std::wstring data;
+        data.assign(ev.data.begin(), ev.data.end());
+        votes->setText(data);
+      });
+    });
+    socket->bind("127.0.0.1", 1337);
+    socket->listen();
+
+    title->on(UIEvent::MouseOver, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOver");
+    });
+
+    title->on(UIEvent::MouseOut, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOut");
+    });
+
+    window->addUIComponent(title);
+    window->addUIComponent(votes);
+  }
+  void tick()
+  {
+    socket->poll();
+
+    // poll all clients
+    for (auto client : clients)
+    {
+      client->poll();
+    }
+
+    UIEvent ev;
+
+    while(window->pollEvents(ev))
     {    
       // handle custom events, like close so we can save data before closing
     }
-    window.paint();
-    Sleep(1);
+    window->paint();
   }
+  bool isActive()
+  {
+    return window->isOpen();
+  }
+};
+
+class Client
+{
+  std::shared_ptr<Window> window;
+  std::shared_ptr<TCPSocket> socket;
+  bool isConnected;
+  int count;
+public:
+  void init()
+  {
+    isConnected = false;
+
+    window = make_shared<Window>();
+    window->setTitle(L"Client!");
+    window->setSize(640, 240);
+    window->show();
+
+    std::shared_ptr<TextComponent> title = std::make_shared<TextComponent>();
+    title->setPosition(10, 10);
+    title->setFontSize(32);
+    title->setColor(236, 240, 241);
+    title->setText(L"Client");
+
+    std::shared_ptr<TextComponent> direction = std::make_shared<TextComponent>();
+    direction->setPosition(10, 100);
+    direction->setFontSize(24);
+    direction->setColor(236, 240, 241);
+    direction->setText(L"Direction");
+
+    std::shared_ptr<TextComponent> votes = std::make_shared<TextComponent>();
+    votes->setPosition(10, 140);
+    votes->setFontSize(24);
+    votes->setColor(236, 240, 241);
+    votes->setText(L"Votes");
+
+    std::shared_ptr<ImageComponent> upvote = std::make_shared<ImageComponent>();
+    upvote->loadImage(L"../Assets/upvote.png");
+    upvote->setSize(100, 100);
+    upvote->setPosition(500, 20);
+    upvote->on(UIEvent::MouseOver, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOver");
+      direction->setText(L"Up");
+      if (isConnected) {
+        socket->send(std::to_string(++count));
+        votes->setText(std::to_wstring(count));
+      }
+    });
+
+    std::shared_ptr<ImageComponent> downvote = std::make_shared<ImageComponent>();
+    downvote->loadImage(L"../Assets/downvote.png");
+    downvote->setSize(100, 100);
+    downvote->setPosition(500, 130);
+    downvote->on(UIEvent::MouseOver, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOver");
+      direction->setText(L"Down");
+      if (isConnected) {
+        socket->send(std::to_string(--count));
+        votes->setText(std::to_wstring(count));
+      }
+    });
+
+    socket = make_shared<TCPSocket>();
+    socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+      title->setText(std::to_wstring(ev.error));
+    });
+    socket->on(SocketEvent::Connected, [=] (SocketEvent ev) {
+      title->setText(L"Socket Connected");
+      isConnected = true;
+    });
+    socket->connect("127.0.0.1", 1337);
+
+    count = 0;
+
+    title->on(UIEvent::MouseOver, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOver");
+    });
+    title->on(UIEvent::MouseOut, [=] (UIEvent ev) {
+      window->setTitle(L"MouseOut");
+    });
+
+    
+    window->addUIComponent(title);
+    window->addUIComponent(upvote);
+    window->addUIComponent(downvote);
+    window->addUIComponent(direction);
+    window->addUIComponent(votes);
+  }
+  void tick()
+  {
+    //socket->poll();
+
+    UIEvent ev;
+
+    while (window->pollEvents(ev))
+    {    
+      // handle custom events, like close so we can save data before closing
+    }
+    window->paint();
+  }
+  bool isActive()
+  {
+    return window->isOpen();
+  }
+};
+
+int main(int argc, char *argv[])
+{
+
+  Server server;
+
+  std::vector<std::shared_ptr<Client>> clients;
+
+  int numClients = 3;
+
+  server.init();
+
+  for (int i = 0; i < numClients; i++)
+  {
+    clients.push_back(std::make_shared<Client>());
+  }
+
+  for (auto client : clients)
+  {
+    client->init();
+  }
+
+  while (server.isActive())
+  {
+    server.tick();
+    for (auto client : clients)
+    {
+      client->tick();
+      Sleep(1);
+      if (!client->isActive()) return 0;
+    }
+  }
+
 
   return 0;
 }

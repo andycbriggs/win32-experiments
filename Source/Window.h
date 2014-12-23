@@ -1,9 +1,10 @@
 #pragma once
-#include <Windows.h>
+#include <windows.h>
 #include <gdiplus.h>
 #pragma comment (lib, "Gdiplus.lib")
 #include <string>
 #include <queue>
+#include <concurrent_queue.h>
 #include <memory>
 
 #include "UIComponent.h"
@@ -26,10 +27,8 @@ public:
   bool pollEvents(UIEvent& ev);
 private:
   std::vector<std::shared_ptr<UIComponent>> m_uiComponents;
-  Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-  ULONG_PTR gdiplusToken;
   HWND m_handle;
-  queue<UIEvent> m_eventQueue;
+  concurrency::concurrent_queue<UIEvent> m_eventQueue;
   bool m_isOpen;
   int m_width;
   int m_height;

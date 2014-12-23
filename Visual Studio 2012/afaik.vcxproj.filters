@@ -5,13 +5,16 @@
     <ClCompile Include="../Source/Window.cpp" />
     <ClCompile Include="../Source/UIComponent.cpp" />
     <ClCompile Include="../Source/TextComponent.cpp" />
-    <ClCompile Include="../Source\ImageComponent.cpp" />
+    <ClCompile Include="..\Source\ImageComponent.cpp" />
+    <ClCompile Include="..\Source\TCPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../Source/Window.h" />
     <ClInclude Include="../Source/UIComponent.h" />
     <ClInclude Include="../Source/TextComponent.h" />
     <ClInclude Include="../Source/UIEvent.h" />
-    <ClInclude Include="../Source\ImageComponent.h" />
+    <ClInclude Include="..\Source\ImageComponent.h" />
+    <ClInclude Include="..\Source\TCPSocket.h" />
+    <ClInclude Include="..\Source\SocketEvent.h" />
   </ItemGroup>
 </Project>

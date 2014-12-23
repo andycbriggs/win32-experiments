@@ -97,6 +97,7 @@
     <ClCompile Include="../Source/TextComponent.cpp" />
     <ClCompile Include="../Source/UIComponent.cpp" />
     <ClCompile Include="..\Source\ImageComponent.cpp" />
+    <ClCompile Include="..\Source\TCPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../Source/Window.h" />
@@ -104,6 +105,8 @@
     <ClInclude Include="../Source/UIComponent.h" />
     <ClInclude Include="../Source/UIEvent.h" />
     <ClInclude Include="..\Source\ImageComponent.h" />
+    <ClInclude Include="..\Source\SocketEvent.h" />
+    <ClInclude Include="..\Source\TCPSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

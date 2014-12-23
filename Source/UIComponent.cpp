@@ -9,6 +9,7 @@ UIComponent::UIComponent(void) :
 
 UIComponent::~UIComponent(void)
 {
+  uiEventHandlers.clear();
 }
 
 bool UIComponent::hitTest(int x, int y)

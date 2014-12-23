@@ -1,6 +1,28 @@
 #include "Window.h"
 #include "UIComponent.h"
 
+// much of this class is inspired by https://github.com/LaurentGomila/SFML :D
+
+struct GdiInit
+{
+  Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+  ULONG_PTR gdiplusToken;
+
+  GdiInit()
+  {
+    Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+  }
+
+  ~GdiInit()
+  {
+    WSACleanup();
+  }
+};
+
+namespace {
+  GdiInit gdiInit;
+}
+
 namespace 
 {
   const LPCWSTR className = L"SketchbookWindow";
@@ -12,10 +34,6 @@ Window::Window(void) :
   m_width(640),
   m_height(480)
 {
-
-  // initialize GDI+.
-  OutputDebugString(L"starting up GDI+");
-  Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
   
   if (windowCount == 0) // only register once
   {
@@ -39,9 +57,6 @@ Window::~Window(void)
   {
     UnregisterClassW(className, GetModuleHandleW(NULL));
   }
-
-  OutputDebugString(L"shutting down GDI+");
-  Gdiplus::GdiplusShutdown(gdiplusToken);
 
 }
 
@@ -122,9 +137,7 @@ bool Window::pollEvents(UIEvent& ev)
   }
   else
   {
-    ev = m_eventQueue.front();
-    m_eventQueue.pop();
-    return true;
+    return m_eventQueue.try_pop(ev);
   }
 }
 
