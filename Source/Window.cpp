@@ -15,7 +15,7 @@ struct GdiInit
 
   ~GdiInit()
   {
-    WSACleanup();
+    Gdiplus::GdiplusShutdown(gdiplusToken);
   }
 };
 
