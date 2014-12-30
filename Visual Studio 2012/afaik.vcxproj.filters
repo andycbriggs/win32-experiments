@@ -1,20 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="../Source/Main.cpp" />
-    <ClCompile Include="../Source/Window.cpp" />
-    <ClCompile Include="../Source/UIComponent.cpp" />
-    <ClCompile Include="../Source/TextComponent.cpp" />
-    <ClCompile Include="..\Source\ImageComponent.cpp" />
-    <ClCompile Include="..\Source\TCPSocket.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\Lib\ImageComponent.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Lib\TCPSocket.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Lib\TextComponent.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Lib\UIComponent.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Lib\Window.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../Source/Window.h" />
-    <ClInclude Include="../Source/UIComponent.h" />
-    <ClInclude Include="../Source/TextComponent.h" />
-    <ClInclude Include="../Source/UIEvent.h" />
-    <ClInclude Include="..\Source\ImageComponent.h" />
-    <ClInclude Include="..\Source\TCPSocket.h" />
-    <ClInclude Include="..\Source\SocketEvent.h" />
+    <ClInclude Include="..\Source\Include\ImageComponent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\SocketEvent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\TCPSocket.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\TextComponent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\UIComponent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\UIEvent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\Window.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{e2b3b6a1-c5a1-49f5-8f50-fa168963095c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{66d90372-4116-41e2-84e7-c27d43d9fb3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

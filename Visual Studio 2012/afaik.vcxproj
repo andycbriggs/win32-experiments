@@ -92,21 +92,21 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="../Source/Main.cpp" />
-    <ClCompile Include="../Source/Window.cpp" />
-    <ClCompile Include="../Source/TextComponent.cpp" />
-    <ClCompile Include="../Source/UIComponent.cpp" />
-    <ClCompile Include="..\Source\ImageComponent.cpp" />
-    <ClCompile Include="..\Source\TCPSocket.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\Lib\Window.cpp" />
+    <ClCompile Include="..\Source\Lib\TextComponent.cpp" />
+    <ClCompile Include="..\Source\Lib\UIComponent.cpp" />
+    <ClCompile Include="..\Source\Lib\ImageComponent.cpp" />
+    <ClCompile Include="..\Source\Lib\TCPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../Source/Window.h" />
-    <ClInclude Include="../Source/TextComponent.h" />
-    <ClInclude Include="../Source/UIComponent.h" />
-    <ClInclude Include="../Source/UIEvent.h" />
-    <ClInclude Include="..\Source\ImageComponent.h" />
-    <ClInclude Include="..\Source\SocketEvent.h" />
-    <ClInclude Include="..\Source\TCPSocket.h" />
+    <ClInclude Include="..\Source\Include\Window.h" />
+    <ClInclude Include="..\Source\Include\TextComponent.h" />
+    <ClInclude Include="..\Source\Include\UIComponent.h" />
+    <ClInclude Include="..\Source\Include\UIEvent.h" />
+    <ClInclude Include="..\Source\Include\ImageComponent.h" />
+    <ClInclude Include="..\Source\Include\SocketEvent.h" />
+    <ClInclude Include="..\Source\Include\TCPSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
