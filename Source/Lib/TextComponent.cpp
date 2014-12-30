@@ -1,4 +1,4 @@
-#include "TextComponent.h"
+#include "../Include/TextComponent.h"
 
 TextComponent::TextComponent(void) :
   m_fontSize(24),

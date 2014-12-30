@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\Lib\ImageComponent.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
@@ -17,6 +16,10 @@
     <ClCompile Include="..\Source\Lib\Window.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Lib\Notification.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Calculator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">
@@ -38,6 +41,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Include\Window.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\Notification.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

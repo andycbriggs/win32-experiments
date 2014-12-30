@@ -3,11 +3,11 @@
 
 #include <stdio.h>
 
-#include "Window.h"
-#include "TextComponent.h"
-#include "ImageComponent.h"
+#include "Include/Window.h"
+#include "Include/TextComponent.h"
+#include "Include/ImageComponent.h"
 
-#include "TCPSocket.h"
+#include "Include/TCPSocket.h"
 
 class Server
 {
@@ -19,7 +19,7 @@ class Server
 public:
   void init()
   {
-    window = make_shared<Window>();
+    window = std::make_shared<Window>();
     window->setTitle(L"Server!");
     window->setSize(640, 240);
     window->show();
@@ -36,7 +36,7 @@ public:
     votes->setColor(236, 240, 241);
     votes->setText(L"Votes");
 
-    socket = make_shared<TCPSocket>();
+    socket = std::make_shared<TCPSocket>();
     socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
       title->setText(std::to_wstring(ev.error));
     });
@@ -98,7 +98,7 @@ public:
   {
     isConnected = false;
 
-    window = make_shared<Window>();
+    window = std::make_shared<Window>();
     window->setTitle(L"Client!");
     window->setSize(640, 240);
     window->show();
@@ -147,7 +147,7 @@ public:
       }
     });
 
-    socket = make_shared<TCPSocket>();
+    socket = std::make_shared<TCPSocket>();
     socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
       title->setText(std::to_wstring(ev.error));
     });

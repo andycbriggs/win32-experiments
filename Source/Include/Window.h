@@ -10,18 +10,18 @@
 #include "UIComponent.h"
 #include "UIEvent.h"
 
-using namespace std;
-
 class Window
 {
 public:
   Window(void);
   virtual ~Window(void);
+  HWND getHandle();
   void show();
   void hide();
   void paint();
   void setSize(long width, long height);
-  void setTitle(wstring title);
+  void setTitle(std::wstring title);
+  void loadIcon(std::wstring filename);
   void setBackgroundColor(Gdiplus::Color color);
   void addUIComponent(std::shared_ptr<UIComponent> component);
   bool isOpen();
@@ -29,6 +29,7 @@ public:
 private:
   std::vector<std::shared_ptr<UIComponent>> m_uiComponents;
   HWND m_handle;
+  HICON m_icon;
   Gdiplus::Color m_bgColor;
   concurrency::concurrent_queue<UIEvent> m_eventQueue;
   bool m_isOpen;

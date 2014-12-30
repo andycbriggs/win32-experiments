@@ -1,4 +1,4 @@
-#include "UIComponent.h"
+#include "../Include/UIComponent.h"
 
 UIComponent::UIComponent(void) :
   m_x(0),

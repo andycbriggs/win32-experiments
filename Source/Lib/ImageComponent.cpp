@@ -1,4 +1,4 @@
-#include "ImageComponent.h"
+#include "../Include/ImageComponent.h"
 
 ImageComponent::ImageComponent(void)
 {

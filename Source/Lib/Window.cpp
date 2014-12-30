@@ -1,5 +1,5 @@
-#include "Window.h"
-#include "UIComponent.h"
+#include "../Include/Window.h"
+#include "../Include/UIComponent.h"
 
 // much of this class is inspired by https://github.com/LaurentGomila/SFML :D
 
@@ -71,7 +71,7 @@ void Window::registerWindowClass()
   windowClass.cbClsExtra    = 0;
   windowClass.cbWndExtra    = 0;
   windowClass.hInstance     = GetModuleHandleA(NULL);
-  windowClass.hIcon         = NULL;
+  windowClass.hIcon         = m_icon;
   windowClass.hCursor       = 0;
   windowClass.hbrBackground = 0;
   windowClass.lpszMenuName  = NULL;
@@ -90,6 +90,11 @@ void Window::createWindow()
       NULL, NULL, GetModuleHandle(NULL), this);
 
   ++windowCount;
+}
+
+HWND Window::getHandle()
+{
+  return m_handle;
 }
 
 void Window::show()
@@ -116,10 +121,23 @@ void Window::setSize(long width, long height)
   SetWindowPos(m_handle, NULL, 0, 0, m_width, m_height, SWP_NOMOVE | SWP_NOZORDER);
 }
 
-void Window::setTitle(wstring title)
+void Window::setTitle(std::wstring title)
 {
   if (!m_handle) return;
   SetWindowTextW(m_handle, title.c_str());
+}
+
+void Window::loadIcon(std::wstring filename)
+{
+  m_icon = (HICON) ::LoadImage(
+    NULL,
+    filename.c_str(),
+    IMAGE_ICON,
+    0,
+    0,
+    LR_LOADFROMFILE | LR_DEFAULTSIZE
+  );
+  ::SendMessage(m_handle, (UINT)WM_SETICON, ICON_BIG, (LPARAM)m_icon);
 }
 
 void Window::setBackgroundColor(Gdiplus::Color color)
@@ -216,11 +234,25 @@ void Window::propagate(UIEvent ev)
 // called by the os
 
 void Window::handleEvent(UINT message, WPARAM wParam, LPARAM lParam)
-{
+{ 
+  UIEvent ev;
   switch (message) 
   {
+  case WM_LBUTTONDOWN:
+    ev.type = UIEvent::MouseDown;
+    ev.mouseX = static_cast<int>(LOWORD(lParam));
+    ev.mouseY = static_cast<int>(HIWORD(lParam));
+    propagate(ev);
+    m_eventQueue.push(ev);
+    break;
+  case WM_LBUTTONUP:
+    ev.type = UIEvent::MouseUp;
+    ev.mouseX = static_cast<int>(LOWORD(lParam));
+    ev.mouseY = static_cast<int>(HIWORD(lParam));
+    propagate(ev);
+    m_eventQueue.push(ev);
+    break;
   case WM_MOUSEMOVE:
-    UIEvent ev;
     ev.type = UIEvent::MouseMove;
     ev.mouseX = static_cast<int>(LOWORD(lParam));
     ev.mouseY = static_cast<int>(HIWORD(lParam));
@@ -234,7 +266,11 @@ void Window::handleEvent(UINT message, WPARAM wParam, LPARAM lParam)
     paint();
     break;
   default:
-    // do nothing
+    // some other event, pass it up the chain
+    ev.type = UIEvent::WM;
+    ev.wmMessage = message;
+    propagate(ev);
+    m_eventQueue.push(ev);
     break;
   }
 }
