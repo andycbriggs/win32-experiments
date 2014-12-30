@@ -59,6 +59,11 @@ void UIComponent::trigger(UIEvent ev)
   }
 }
 
+void UIComponent::paint(Gdiplus::Graphics& graphics)
+{
+  // do nothing
+}
+
 void UIComponent::setPosition(float x, float y)
 {
   m_x = x;

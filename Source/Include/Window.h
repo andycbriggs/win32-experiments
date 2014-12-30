@@ -22,12 +22,14 @@ public:
   void paint();
   void setSize(long width, long height);
   void setTitle(wstring title);
+  void setBackgroundColor(Gdiplus::Color color);
   void addUIComponent(std::shared_ptr<UIComponent> component);
   bool isOpen();
   bool pollEvents(UIEvent& ev);
 private:
   std::vector<std::shared_ptr<UIComponent>> m_uiComponents;
   HWND m_handle;
+  Gdiplus::Color m_bgColor;
   concurrency::concurrent_queue<UIEvent> m_eventQueue;
   bool m_isOpen;
   int m_width;
@@ -39,4 +41,3 @@ private:
   void handleEvent(UINT message, WPARAM wParam, LPARAM lParam);
   static LRESULT CALLBACK globalWindowsEvent(HWND handle, UINT message, WPARAM wParam, LPARAM lParam);
 };
-

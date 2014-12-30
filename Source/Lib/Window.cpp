@@ -32,7 +32,8 @@ namespace
 Window::Window(void) :
   m_isOpen(true),
   m_width(640),
-  m_height(480)
+  m_height(480),
+  m_bgColor(Gdiplus::Color::Black)
 {
   
   if (windowCount == 0) // only register once
@@ -121,6 +122,11 @@ void Window::setTitle(wstring title)
   SetWindowTextW(m_handle, title.c_str());
 }
 
+void Window::setBackgroundColor(Gdiplus::Color color)
+{
+  m_bgColor = color;
+}
+
 bool Window::isOpen()
 {
   return m_isOpen;
@@ -179,7 +185,7 @@ void Window::paint()
   graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
   // fill the background
-  Gdiplus::SolidBrush bgBrush(Gdiplus::Color(44, 62, 80));
+  Gdiplus::SolidBrush bgBrush(m_bgColor);
   graphics.FillRectangle(&bgBrush, 0, 0, m_width, m_height);
 
   // draw each componenet
