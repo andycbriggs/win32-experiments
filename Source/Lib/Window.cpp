@@ -33,7 +33,8 @@ Window::Window(void) :
   m_isOpen(true),
   m_width(640),
   m_height(480),
-  m_bgColor(Gdiplus::Color::Black)
+  m_bgColor(Gdiplus::Color::Black),
+  m_icon(NULL)
 {
   
   if (windowCount == 0) // only register once
@@ -140,9 +141,9 @@ void Window::loadIcon(std::wstring filename)
   ::SendMessage(m_handle, (UINT)WM_SETICON, ICON_BIG, (LPARAM)m_icon);
 }
 
-void Window::setBackgroundColor(Gdiplus::Color color)
+void Window::setBackgroundColor(int red, int green, int blue)
 {
-  m_bgColor = color;
+  m_bgColor = Gdiplus::Color(red, green, blue);
 }
 
 bool Window::isOpen()

@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <gdiplus.h>
 #pragma comment (lib, "Gdiplus.lib")
+
 #include <string>
 #include <queue>
 #include <concurrent_queue.h>
@@ -22,19 +23,19 @@ public:
   void setSize(long width, long height);
   void setTitle(std::wstring title);
   void loadIcon(std::wstring filename);
-  void setBackgroundColor(Gdiplus::Color color);
+  void setBackgroundColor(int red, int green, int blue);
   void addUIComponent(std::shared_ptr<UIComponent> component);
   bool isOpen();
   bool pollEvents(UIEvent& ev);
 private:
+  bool m_isOpen;
+  int m_width;
+  int m_height;
   std::vector<std::shared_ptr<UIComponent>> m_uiComponents;
   HWND m_handle;
   HICON m_icon;
   Gdiplus::Color m_bgColor;
   concurrency::concurrent_queue<UIEvent> m_eventQueue;
-  bool m_isOpen;
-  int m_width;
-  int m_height;
   void propagate(UIEvent ev);
   void registerWindowClass();
   void createWindow();

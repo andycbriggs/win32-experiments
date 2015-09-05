@@ -19,7 +19,7 @@
     <ClCompile Include="..\Source\Lib\Notification.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Calculator.cpp" />
+    <ClCompile Include="..\Source\ClientServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">

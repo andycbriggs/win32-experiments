@@ -92,7 +92,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Calculator.cpp" />
+    <ClCompile Include="..\Source\ClientServer.cpp" />
     <ClCompile Include="..\Source\Lib\Notification.cpp" />
     <ClCompile Include="..\Source\Lib\Window.cpp" />
     <ClCompile Include="..\Source\Lib\TextComponent.cpp" />

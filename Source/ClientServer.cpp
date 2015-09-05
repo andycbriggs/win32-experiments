@@ -22,6 +22,7 @@ public:
     window = std::make_shared<Window>();
     window->setTitle(L"Server!");
     window->setSize(640, 240);
+    window->setBackgroundColor(0, 0, 40);
     window->show();
 
     std::shared_ptr<TextComponent> title = std::make_shared<TextComponent>();
@@ -49,7 +50,7 @@ public:
         votes->setText(data);
       });
     });
-    socket->bind("127.0.0.1", 1337);
+    socket->bind("0.0.0.0", 1337);
     socket->listen();
 
     title->on(UIEvent::MouseOver, [=] (UIEvent ev) {
@@ -166,7 +167,6 @@ public:
       window->setTitle(L"MouseOut");
     });
 
-    
     window->addUIComponent(title);
     window->addUIComponent(upvote);
     window->addUIComponent(downvote);
