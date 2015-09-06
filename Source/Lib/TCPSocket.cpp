@@ -132,7 +132,7 @@ void TCPSocket::poll()
   int error = ::recv(m_handle, buffer, sizeof(buffer), 0);
   if ((SOCKET_ERROR == error) && (WSAEWOULDBLOCK != WSAGetLastError()))
   {
-    //SocketEvent ev;
+    SocketEvent ev;
     //ev.type = SocketEvent::Error;
     //ev.error = WSAGetLastError();
     //trigger(ev);

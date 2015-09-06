@@ -48,6 +48,9 @@ public:
         std::wstring data;
         data.assign(ev.data.begin(), ev.data.end());
         votes->setText(data);
+        for (auto client : clients) {
+          client->send(ev.data);
+        }
       });
     });
     socket->bind("0.0.0.0", 1337);
@@ -129,6 +132,8 @@ public:
     upvote->on(UIEvent::MouseOver, [=] (UIEvent ev) {
       window->setTitle(L"MouseOver");
       direction->setText(L"Up");
+    });
+    upvote->on(UIEvent::MouseDown, [=] (UIEvent ev) {
       if (isConnected) {
         socket->send(std::to_string(++count));
         votes->setText(std::to_wstring(count));
@@ -142,6 +147,8 @@ public:
     downvote->on(UIEvent::MouseOver, [=] (UIEvent ev) {
       window->setTitle(L"MouseOver");
       direction->setText(L"Down");
+    });
+    downvote->on(UIEvent::MouseDown, [=] (UIEvent ev) {
       if (isConnected) {
         socket->send(std::to_string(--count));
         votes->setText(std::to_wstring(count));
@@ -156,7 +163,11 @@ public:
       title->setText(L"Socket Connected");
       isConnected = true;
     });
-    socket->connect("127.0.0.1", 1337);
+    socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
+      count = atoi(ev.data.c_str());
+      votes->setText(std::to_wstring(count));
+    });
+    socket->connect("10.100.101.110", 1337);
 
     count = 0;
 
@@ -175,7 +186,7 @@ public:
   }
   void tick()
   {
-    //socket->poll();
+    socket->poll();
 
     UIEvent ev;
 

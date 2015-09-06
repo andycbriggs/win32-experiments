@@ -51,6 +51,15 @@ void UIComponent::trigger(UIEvent ev)
       trigger(mouseOut);
     }
     break;
+  case UIEvent::MouseDown:
+    if (hitTest(ev.mouseX, ev.mouseY))
+    {
+      uiEventHandlers.at(ev.type)(ev);
+      return;
+    } else {
+      return;
+    }
+    break;
   }
   // fire user event handles
   if (uiEventHandlers.count(ev.type) > 0)
