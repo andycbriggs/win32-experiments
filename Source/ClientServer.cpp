@@ -167,7 +167,7 @@ public:
       count = atoi(ev.data.c_str());
       votes->setText(std::to_wstring(count));
     });
-    socket->connect("10.100.101.110", 1337);
+    socket->connect("127.0.0.1", 1337);
 
     count = 0;
 
@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::shared_ptr<Client>> clients;
 
-  int numClients = 3;
+  int numClients = 8;
 
   server.init();
 

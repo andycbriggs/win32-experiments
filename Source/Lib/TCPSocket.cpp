@@ -20,12 +20,11 @@ namespace {
 
 TCPSocket::TCPSocket()
 {
-
   m_handle = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (m_handle != INVALID_SOCKET) {
     unsigned long blocking = 1;
     ::ioctlsocket(m_handle, FIONBIO, &blocking); // set non-blocking
-    ::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) true, sizeof(int));
+    //::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) true, sizeof(int));
   }
 }
 
