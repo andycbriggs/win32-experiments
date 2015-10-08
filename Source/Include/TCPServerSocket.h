@@ -12,4 +12,5 @@ public:
   virtual ~TCPServerSocket();
 
   virtual void poll() override;
+  virtual void listen();
 };

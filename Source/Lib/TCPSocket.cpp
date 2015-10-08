@@ -79,18 +79,12 @@ void TCPSocket::bind(const std::string ipaddress, unsigned short port)
   checkAndEmitError();
 }
 
-void TCPSocket::listen()
-{
-  m_error = ::listen(m_handle, SOMAXCONN);
-  checkAndEmitError();
-}
-
 void TCPSocket::poll()
 {
   char buffer[512] = {0};
 
   int recvError = ::recv(m_handle, buffer, sizeof(buffer), 0);
-  if ((SOCKET_ERROR == recvError) && (WSAEWOULDBLOCK != WSAGetLastError())) // data was received
+  if ((SOCKET_ERROR == recvError) || (WSAEWOULDBLOCK != WSAGetLastError())) // data was received
   {
     // not connected
   }

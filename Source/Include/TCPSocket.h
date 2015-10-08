@@ -17,7 +17,6 @@ public:
   virtual void connect(const std::string ipaddress, unsigned short port);
   virtual void disconnect();
   virtual void bind(const std::string ipaddress, unsigned short port);
-  virtual void listen();
 
   virtual void poll() override;
 
