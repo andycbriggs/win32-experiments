@@ -1,6 +1,6 @@
 # afaik
 
-A sketchbook of novel approaches to working with the win32 api.
+A sketchbook of approaches to working with the win32 api using modern c++.
 
 ## Why?
 
