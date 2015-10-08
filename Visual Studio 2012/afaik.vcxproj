@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Include\EventEmitter.h" />
     <ClInclude Include="..\Source\Include\LockingQueue.h" />
+    <ClInclude Include="..\Source\Include\NonCopyable.h" />
     <ClInclude Include="..\Source\Include\Notification.h" />
     <ClInclude Include="..\Source\Include\ScopedLock.h" />
     <ClInclude Include="..\Source\Include\Socket.h" />

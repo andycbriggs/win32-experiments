@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::shared_ptr<Client>> clients;
 
-  int numClients = 12;
+  int numClients = 8;
 
   server.init();
 

@@ -61,6 +61,9 @@
     <ClInclude Include="..\Source\Include\EventEmitter.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Include\NonCopyable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Lib">
