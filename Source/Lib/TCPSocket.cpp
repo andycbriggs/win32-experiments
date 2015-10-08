@@ -24,7 +24,8 @@ TCPSocket::TCPSocket() : Socket()
   if (m_handle != INVALID_SOCKET) {
     unsigned long blocking = 1;
     ::ioctlsocket(m_handle, FIONBIO, &blocking); // set non-blocking
-    //::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) true, sizeof(int));
+    char noDelay = 1;
+    ::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) &noDelay, sizeof(noDelay));
   }
 }
 
@@ -100,15 +101,4 @@ void TCPSocket::poll()
     ev.data = std::string(buffer);
     trigger(ev);
   }
-
-  SOCKET socket = ::accept(m_handle, 0, 0);
-  if (INVALID_SOCKET != socket)
-  {
-    std::shared_ptr<TCPSocket> newSocket = std::make_shared<TCPSocket>(socket);
-    SocketEvent ev;
-    ev.type = SocketEvent::Connection;
-    ev.socket = newSocket;
-    trigger(ev);
-  }
-
 }

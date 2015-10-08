@@ -7,7 +7,6 @@ class Notification :
   public UIComponent
 {
 public:
-
   const static UINT WM_TRAYICONCLICKED = WM_USER + 1776;
 
   Notification(void);

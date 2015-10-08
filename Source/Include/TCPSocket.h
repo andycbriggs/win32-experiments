@@ -9,7 +9,6 @@
 class TCPSocket : public Socket
 {
 public:
-
   TCPSocket();
   TCPSocket(SOCKET& handle);
   virtual ~TCPSocket();
@@ -21,4 +20,5 @@ public:
   virtual void listen();
 
   virtual void poll() override;
+
 };

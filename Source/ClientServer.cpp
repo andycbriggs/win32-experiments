@@ -8,11 +8,12 @@
 #include "Include/ImageComponent.h"
 
 #include "Include/TCPSocket.h"
+#include "Include/TCPServerSocket.h"
 
 class Server
 {
   std::shared_ptr<Window> window;
-  std::shared_ptr<TCPSocket> socket;
+  std::shared_ptr<TCPServerSocket> socket;
 
   std::vector<std::shared_ptr<TCPSocket>> clients;
 
@@ -37,13 +38,13 @@ public:
     votes->setColor(236, 240, 241);
     votes->setText(L"Votes");
 
-    socket = std::make_shared<TCPSocket>();
+    socket = std::make_shared<TCPServerSocket>();
     socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
       title->setText(std::to_wstring(ev.error));
     });
     socket->on(SocketEvent::Connection, [=] (SocketEvent ev) {
-      title->setText(L"Connection Received");
       clients.push_back(ev.socket);
+      title->setText(std::to_wstring(clients.size()));
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
         std::wstring data;
         data.assign(ev.data.begin(), ev.data.end());
@@ -157,6 +158,7 @@ public:
 
     socket = std::make_shared<TCPSocket>();
     socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+      if (!isConnected) return;
       isConnected = false;
       title->setText(std::to_wstring(ev.error));
     });
@@ -210,7 +212,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::shared_ptr<Client>> clients;
 
-  int numClients = 8;
+  int numClients = 25;
 
   server.init();
 

@@ -23,6 +23,9 @@
     <ClCompile Include="..\Source\Lib\Socket.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Lib\TCPServerSocket.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">
@@ -62,6 +65,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Include\NonCopyable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\TCPServerSocket.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
