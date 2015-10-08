@@ -20,6 +20,9 @@
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\ClientServer.cpp" />
+    <ClCompile Include="..\Source\Lib\LockingQueue.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">
@@ -44,6 +47,12 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Include\Notification.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\LockingQueue.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\ScopedLock.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

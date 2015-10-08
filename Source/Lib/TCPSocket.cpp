@@ -69,7 +69,7 @@ void TCPSocket::connect(const std::string ipaddress, unsigned short port)
   sockaddr_in sockaddr;
   sockaddr.sin_family = AF_INET;
   sockaddr.sin_addr.s_addr = inet_addr(ipaddress.c_str());
-  sockaddr.sin_port = port;
+  sockaddr.sin_port = htons(port);
 
   int error = ::connect(m_handle, (SOCKADDR *) &sockaddr, sizeof(sockaddr));
 
@@ -103,7 +103,7 @@ void TCPSocket::bind(const std::string ipaddress, unsigned short port)
   sockaddr_in sockaddr;
   sockaddr.sin_family = AF_INET;
   sockaddr.sin_addr.s_addr = inet_addr(ipaddress.c_str());
-  sockaddr.sin_port = port;
+  sockaddr.sin_port = htons(port);
   int error = ::bind(m_handle, (SOCKADDR *) &sockaddr, sizeof(sockaddr));
   if (SOCKET_ERROR == error) {
     SocketEvent ev;

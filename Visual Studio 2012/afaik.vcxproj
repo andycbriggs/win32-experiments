@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\ClientServer.cpp" />
+    <ClCompile Include="..\Source\Lib\LockingQueue.cpp" />
     <ClCompile Include="..\Source\Lib\Notification.cpp" />
     <ClCompile Include="..\Source\Lib\Window.cpp" />
     <ClCompile Include="..\Source\Lib\TextComponent.cpp" />
@@ -101,7 +102,9 @@
     <ClCompile Include="..\Source\Lib\TCPSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Include\LockingQueue.h" />
     <ClInclude Include="..\Source\Include\Notification.h" />
+    <ClInclude Include="..\Source\Include\ScopedLock.h" />
     <ClInclude Include="..\Source\Include\Window.h" />
     <ClInclude Include="..\Source\Include\TextComponent.h" />
     <ClInclude Include="..\Source\Include\UIComponent.h" />
