@@ -157,6 +157,7 @@ public:
 
     socket = std::make_shared<TCPSocket>();
     socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+      isConnected = false;
       title->setText(std::to_wstring(ev.error));
     });
     socket->on(SocketEvent::Connected, [=] (SocketEvent ev) {
@@ -209,7 +210,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::shared_ptr<Client>> clients;
 
-  int numClients = 4;
+  int numClients = 12;
 
   server.init();
 
@@ -229,9 +230,9 @@ int main(int argc, char *argv[])
     for (auto client : clients)
     {
       client->tick();
-      Sleep(1);
       if (!client->isActive()) return 0;
     }
+    Sleep(0);
   }
 
 

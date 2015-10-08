@@ -13,14 +13,14 @@
     <ClCompile Include="..\Source\Lib\UIComponent.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Lib\Window.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Lib\Notification.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\ClientServer.cpp" />
-    <ClCompile Include="..\Source\Lib\LockingQueue.cpp">
+    <ClCompile Include="..\Source\Lib\Window.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Lib\Socket.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,6 +53,12 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Include\ScopedLock.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\Socket.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\EventEmitter.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
