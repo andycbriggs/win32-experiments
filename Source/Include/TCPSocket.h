@@ -18,6 +18,9 @@ public:
   virtual void disconnect();
   virtual void bind(const std::string ipaddress, unsigned short port);
 
+  virtual void setBlocking(const bool block);
+  virtual void setNoDelay(const bool delay);
+
   virtual void poll() override;
 
 };

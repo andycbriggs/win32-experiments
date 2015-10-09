@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::shared_ptr<Client>> clients;
 
-  int numClients = 25;
+  int numClients = 5;
 
   server.init();
 
@@ -224,6 +224,7 @@ int main(int argc, char *argv[])
   for (auto client : clients)
   {
     client->init();
+    server.tick();
   }
 
   while (server.isActive())
@@ -232,7 +233,7 @@ int main(int argc, char *argv[])
     for (auto client : clients)
     {
       client->tick();
-      if (!client->isActive()) return 0;
+      //if (!client->isActive()) return 0;
     }
     Sleep(0);
   }
