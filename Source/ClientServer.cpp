@@ -39,13 +39,13 @@ public:
     votes->setText(L"Votes");
 
     socket = std::make_shared<TCPServerSocket>();
-    socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+    socket->on(SocketEvent::Error, [=] (SocketEvent& ev) {
       title->setText(std::to_wstring(ev.error));
     });
-    socket->on(SocketEvent::Connection, [=] (SocketEvent ev) {
+    socket->on(SocketEvent::Connection, [=] (SocketEvent& ev) {
       clients.push_back(ev.socket);
       title->setText(std::to_wstring(clients.size()));
-      ev.socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
+      ev.socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
         int count = *ev.data;
         votes->setText(std::to_wstring(count));
         for (auto client : clients) {
@@ -158,16 +158,16 @@ public:
     });
 
     socket = std::make_shared<TCPSocket>();
-    socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
+    socket->on(SocketEvent::Error, [=] (SocketEvent& ev) {
       if (!isConnected) return;
       isConnected = false;
       title->setText(std::to_wstring(ev.error));
     });
-    socket->on(SocketEvent::Connected, [=] (SocketEvent ev) {
+    socket->on(SocketEvent::Connected, [=] (SocketEvent& ev) {
       title->setText(L"Socket Connected");
       isConnected = true;
     });
-    socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
+    socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
       count = *ev.data;
       votes->setText(std::to_wstring(count));
     });

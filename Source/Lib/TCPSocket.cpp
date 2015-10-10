@@ -92,13 +92,14 @@ void TCPSocket::poll()
   u_long readableSize = 0;
   m_error = ::ioctlsocket(m_handle, FIONREAD, &readableSize);
 
-  if ((SOCKET_ERROR != m_error) && (readableSize > 0))
-  {
-    char buffer[1024] = {0};
+  if ((SOCKET_ERROR != m_error) && (readableSize > 0)) {
+    char buffer[BUFFER_SIZE] = {0};
+
+    if (readableSize > BUFFER_SIZE) readableSize = BUFFER_SIZE;
 
     m_error = ::recv(m_handle, buffer, readableSize, 0);
-    if (!checkAndEmitError()) // data was received
-    {
+
+    if (!checkAndEmitError()) { // data was received
       SocketEvent ev;
       ev.type = SocketEvent::Data;
       ev.data = buffer;

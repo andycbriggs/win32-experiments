@@ -1,13 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <string>
-
 #include "NonCopyable.h"
 
 class TCPSocket;
 
-struct SocketEvent {
+struct SocketEvent : public NonCopyable {
   enum Type {
     Error,
     Data,

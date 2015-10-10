@@ -13,9 +13,9 @@ public:
     if (it != _eventHandlers.end()) it->second(ev);
   };
 
-  void on(EventType eventType, std::function<void(Event)> handler)
+  void on(EventType eventType, std::function<void(Event&)> handler)
   {
-    _eventHandlers.insert(std::pair<EventType, std::function<void(Event)>>(eventType, handler));
+    _eventHandlers.insert(std::pair<EventType, std::function<void(Event&)>>(eventType, handler));
   };
 
   virtual void poll() = 0;

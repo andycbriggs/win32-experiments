@@ -18,7 +18,6 @@ namespace {
   WinsockInit winsockInit;
 }
 
-
 bool Socket::checkAndEmitError()
 {
   if ((SOCKET_ERROR == m_error) && (WSAEWOULDBLOCK != WSAGetLastError()))
