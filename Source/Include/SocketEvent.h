@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+#include "NonCopyable.h"
+
 class TCPSocket;
 
 struct SocketEvent {
@@ -14,6 +16,7 @@ struct SocketEvent {
   };
   Type type;
   int error;
-  std::string data;
+  char* data;
+  int dataLength;
   std::shared_ptr<TCPSocket> socket;
 };

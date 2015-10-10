@@ -2,25 +2,23 @@
 
 #include <Windows.h>
 #include <queue>
+#include <mutex>
 
 #include "ScopedLock.h"
 
 template<typename DataType>
 class LockingQueue {
 private:
-  LockingQueue() 
-  {
-    ::InitializeCriticalSection(&lock);
-  };
+  LockingQueue() { };
 
   virtual ~LockingQueue() 
   {
-    ::DeleteCriticalSection(&lock);
+    _queue.empty();
   };
 
   bool tryPop(DataType& target)
   {
-    ScopedLock(&lock);
+    std::lock_guard(_lock);
 
     if (!_queue.empty())
     {
@@ -33,13 +31,12 @@ private:
 
   void push(DataType& target)
   {
-    ScopedLock(&lock);
-
+    std::lock_guard(_lock);
     _queue.push(std::copy(target));
   };
 
 public:
-  CRITICAL_SECTION lock;
+  std::mutex _lock;
   std::queue<DataType> _queue;
 
 };

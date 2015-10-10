@@ -1,5 +1,7 @@
 #include "../Include/TCPSocket.h"
 
+#include <iostream>
+
 TCPSocket::TCPSocket() : Socket()
 {
   m_handle = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -20,13 +22,18 @@ TCPSocket::~TCPSocket()
   m_handle = 0;
 }
 
-void TCPSocket::send(const std::string data)
+void TCPSocket::send(const char* data, const int& length)
 {
-  m_error = ::send(m_handle, data.c_str(), sizeof(data.c_str()), 0);
+  m_error = ::send(m_handle, data, length, 0);
   checkAndEmitError();
 }
 
-void TCPSocket::connect(const std::string ipaddress, unsigned short port)
+void TCPSocket::send(const std::string message)
+{
+  send(message.c_str(), message.size());
+}
+
+void TCPSocket::connect(const std::string ipaddress, const unsigned short port)
 {
   sockaddr_in sockaddr = {0};
   sockaddr.sin_family = AF_INET;
@@ -41,13 +48,6 @@ void TCPSocket::connect(const std::string ipaddress, unsigned short port)
     ev.type = SocketEvent::Connected;
     trigger(ev);
   }
-  else
-  {
-    SocketEvent ev;
-    ev.type = SocketEvent::Error;
-    ev.error = 999;
-    trigger(ev);
-  }
 }
 
 void TCPSocket::disconnect()
@@ -56,7 +56,7 @@ void TCPSocket::disconnect()
   checkAndEmitError();
 }
 
-void TCPSocket::bind(const std::string ipaddress, unsigned short port)
+void TCPSocket::bind(const std::string ipaddress, const unsigned short port)
 {
   sockaddr_in sockaddr = {0};
   sockaddr.sin_family = AF_INET;
@@ -89,15 +89,21 @@ void TCPSocket::poll()
     return;
   };
 
-  char buffer[512] = {0};
+  u_long readableSize = 0;
+  m_error = ::ioctlsocket(m_handle, FIONREAD, &readableSize);
 
-  int recvError = ::recv(m_handle, buffer, sizeof(buffer), 0);
-  if ((SOCKET_ERROR != recvError) || (WSAEWOULDBLOCK != WSAGetLastError())) // data was received
+  if ((SOCKET_ERROR != m_error) && (readableSize > 0))
   {
-    SocketEvent ev;
-    ev.type = SocketEvent::Data;
-    ev.data = std::string(buffer);
-    trigger(ev);
-  }
+    char buffer[1024] = {0};
 
+    m_error = ::recv(m_handle, buffer, readableSize, 0);
+    if (!checkAndEmitError()) // data was received
+    {
+      SocketEvent ev;
+      ev.type = SocketEvent::Data;
+      ev.data = buffer;
+      ev.dataLength = readableSize;
+      trigger(ev);
+    }
+  }
 }

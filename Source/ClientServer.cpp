@@ -1,7 +1,7 @@
 ﻿#include <windows.h>
 #include <string>
 
-#include <stdio.h>
+#include <iostream>
 
 #include "Include/Window.h"
 #include "Include/TextComponent.h"
@@ -46,11 +46,10 @@ public:
       clients.push_back(ev.socket);
       title->setText(std::to_wstring(clients.size()));
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
-        std::wstring data;
-        data.assign(ev.data.begin(), ev.data.end());
-        votes->setText(data);
+        int count = *ev.data;
+        votes->setText(std::to_wstring(count));
         for (auto client : clients) {
-          client->send(ev.data);
+          client->send(ev.data, ev.dataLength);
         }
       });
     });
@@ -136,7 +135,8 @@ public:
     });
     upvote->on(UIEvent::MouseDown, [=] (UIEvent ev) {
       if (isConnected) {
-        socket->send(std::to_string(++count));
+        ++count;
+        socket->send((char*) &count, sizeof(int));
         votes->setText(std::to_wstring(count));
       }
     });
@@ -151,7 +151,8 @@ public:
     });
     downvote->on(UIEvent::MouseDown, [=] (UIEvent ev) {
       if (isConnected) {
-        socket->send(std::to_string(--count));
+        --count;
+        socket->send((char*) &count, sizeof(int));
         votes->setText(std::to_wstring(count));
       }
     });
@@ -167,7 +168,7 @@ public:
       isConnected = true;
     });
     socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
-      count = atoi(ev.data.c_str());
+      count = *ev.data;
       votes->setText(std::to_wstring(count));
     });
     socket->connect("127.0.0.1", 1337);
@@ -233,7 +234,7 @@ int main(int argc, char *argv[])
     for (auto client : clients)
     {
       client->tick();
-      //if (!client->isActive()) return 0;
+      if (!client->isActive()) return 0;
     }
     Sleep(0);
   }
