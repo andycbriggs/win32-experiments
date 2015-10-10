@@ -7,6 +7,8 @@
 #include "Include/TextComponent.h"
 #include "Include/ImageComponent.h"
 
+#include "Include/Application.h"
+
 #include "Include/TCPSocket.h"
 #include "Include/TCPServerSocket.h"
 
@@ -206,39 +208,42 @@ public:
   }
 };
 
-int main(int argc, char *argv[])
-{
 
-  Server server;
-
-  std::vector<std::shared_ptr<Client>> clients;
-
-  int numClients = 5;
-
-  server.init();
-
-  for (int i = 0; i < numClients; i++)
+class ClientServerExample : public Application {
+public:
+  void run()
   {
-    clients.push_back(std::make_shared<Client>());
-  }
+    Server server;
 
-  for (auto client : clients)
-  {
-    client->init();
-    server.tick();
-  }
+    std::vector<std::shared_ptr<Client>> clients;
 
-  while (server.isActive())
-  {
-    server.tick();
+    int numClients = 5;
+
+    server.init();
+
+    for (int i = 0; i < numClients; i++)
+    {
+      clients.push_back(std::make_shared<Client>());
+    }
+
     for (auto client : clients)
     {
-      client->tick();
-      if (!client->isActive()) return 0;
+      client->init();
+      server.tick();
     }
-    Sleep(0);
-  }
 
+    bool end = false;
 
-  return 0;
-}
+    while (server.isActive() && !end)
+    {
+      server.tick();
+      for (auto client : clients)
+      {
+        client->tick();
+        if (!client->isActive()) end = true;
+      }
+      Sleep(0);
+    }
+  };
+
+};

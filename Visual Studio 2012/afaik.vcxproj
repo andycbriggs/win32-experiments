@@ -101,8 +101,10 @@
     <ClCompile Include="..\Source\Lib\UIComponent.cpp" />
     <ClCompile Include="..\Source\Lib\ImageComponent.cpp" />
     <ClCompile Include="..\Source\Lib\TCPSocket.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Include\Application.h" />
     <ClInclude Include="..\Source\Include\EventEmitter.h" />
     <ClInclude Include="..\Source\Include\LockingQueue.h" />
     <ClInclude Include="..\Source\Include\NonCopyable.h" />

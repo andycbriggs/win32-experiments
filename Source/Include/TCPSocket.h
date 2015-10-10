@@ -15,10 +15,11 @@ public:
   virtual ~TCPSocket();
 
   virtual void send(const char* data, const int& length);
-  virtual void send(const std::string message);
-  virtual void connect(const std::string ipaddress, const unsigned short port);
+  virtual void send(const std::string& message);
+
+  virtual void connect(const char* ipaddress, const unsigned short port);
   virtual void disconnect();
-  virtual void bind(const std::string ipaddress, const unsigned short port);
+  virtual void bind(const char* ipaddress, const unsigned short port);
 
   virtual void setBlocking(const bool block);
   virtual void setNoDelay(const bool noDelay);

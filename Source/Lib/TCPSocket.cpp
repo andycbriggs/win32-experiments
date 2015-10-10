@@ -28,16 +28,16 @@ void TCPSocket::send(const char* data, const int& length)
   checkAndEmitError();
 }
 
-void TCPSocket::send(const std::string message)
+void TCPSocket::send(const std::string& message)
 {
   send(message.c_str(), message.size());
 }
 
-void TCPSocket::connect(const std::string ipaddress, const unsigned short port)
+void TCPSocket::connect(const char* ipaddress, const unsigned short port)
 {
   sockaddr_in sockaddr = {0};
   sockaddr.sin_family = AF_INET;
-  sockaddr.sin_addr.s_addr = inet_addr(ipaddress.c_str());
+  sockaddr.sin_addr.s_addr = inet_addr(ipaddress);
   sockaddr.sin_port = htons(port);
 
   m_error = ::connect(m_handle, (SOCKADDR *) &sockaddr, sizeof(sockaddr));
@@ -56,11 +56,11 @@ void TCPSocket::disconnect()
   checkAndEmitError();
 }
 
-void TCPSocket::bind(const std::string ipaddress, const unsigned short port)
+void TCPSocket::bind(const char* ipaddress, const unsigned short port)
 {
   sockaddr_in sockaddr = {0};
   sockaddr.sin_family = AF_INET;
-  sockaddr.sin_addr.s_addr = inet_addr(ipaddress.c_str());
+  sockaddr.sin_addr.s_addr = inet_addr(ipaddress);
   sockaddr.sin_port = htons(port);
 
   m_error = ::bind(m_handle, (SOCKADDR *) &sockaddr, sizeof(sockaddr));
