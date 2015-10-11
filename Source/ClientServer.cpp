@@ -2,6 +2,7 @@
 #include <string>
 
 #include <iostream>
+#include <algorithm>
 
 #include "Include/Window.h"
 #include "Include/TextComponent.h"
@@ -54,6 +55,9 @@ public:
           client->send(ev.data, ev.dataLength);
         }
       });
+      ev.socket->on(SocketEvent::Error, [=] (SocketEvent& ev) {
+        clients.erase(std::remove(clients.begin(), clients.end(), ev.socket), clients.end());
+      });
     });
     socket->bind("0.0.0.0", 1337);
     socket->listen();
@@ -73,7 +77,6 @@ public:
   {
     socket->poll();
 
-    // poll all clients
     for (auto client : clients)
     {
       client->poll();
@@ -83,7 +86,7 @@ public:
 
     while(window->pollEvents(ev))
     {    
-      // handle custom events, like close so we can save data before closing
+      // do nothing
     }
     window->paint();
   }
@@ -173,6 +176,10 @@ public:
       count = *ev.data;
       votes->setText(std::to_wstring(count));
     });
+    socket->on(SocketEvent::Error, [=] (SocketEvent& ev) {
+      votes->setText(L"Socket error");
+      socket->close();
+    });
     socket->connect("127.0.0.1", 1337);
 
     count = 0;
@@ -198,7 +205,7 @@ public:
 
     while (window->pollEvents(ev))
     {    
-      // handle custom events, like close so we can save data before closing
+      // do nothing
     }
     window->paint();
   }

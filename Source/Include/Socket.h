@@ -3,6 +3,8 @@
 #include <windows.h>
 #pragma comment(lib, "Ws2_32.lib")
 
+#include <memory>
+
 #include "EventEmitter.h"
 #include "SocketEvent.h"
 #include "NonCopyable.h"

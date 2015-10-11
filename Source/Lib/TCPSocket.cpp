@@ -17,9 +17,7 @@ TCPSocket::TCPSocket(SOCKET& handle) : Socket(handle)
 
 TCPSocket::~TCPSocket()
 {
-  disconnect();
-  ::closesocket(m_handle);
-  m_handle = 0;
+  close();
 }
 
 void TCPSocket::send(const char* data, const int& length)
@@ -50,10 +48,13 @@ void TCPSocket::connect(const char* ipaddress, const unsigned short port)
   }
 }
 
-void TCPSocket::disconnect()
+void TCPSocket::close()
 {
-  m_error = ::shutdown(m_handle, 2);
-  checkAndEmitError();
+  if (m_handle) {
+    ::shutdown(m_handle, 2);
+    ::closesocket(m_handle);
+    m_handle = 0;
+  }
 }
 
 void TCPSocket::bind(const char* ipaddress, const unsigned short port)
@@ -101,9 +102,10 @@ void TCPSocket::poll()
 
     if (!checkAndEmitError()) { // data was received
       SocketEvent ev;
-      ev.type = SocketEvent::Data;
+      ev.type = SocketEvent::Error;
       ev.data = buffer;
       ev.dataLength = readableSize;
+      ev.socket = shared_from_this();
       trigger(ev);
     }
   }
