@@ -82,18 +82,6 @@ void TCPSocket::setNoDelay(const bool noDelay)
   }
 }
 
-void TCPSocket::getPeerAddress()
-{
-  if (m_handle != INVALID_SOCKET) {
-    char* ipAddress = inet_ntoa(local.sin_addr);
-    unsigned short port = ntohs(local.sin_port);
-    std::cout << ipAddress << ":" << port << std::endl;
-    ipAddress = inet_ntoa(remote.sin_addr);
-    port = ntohs(remote.sin_port);
-    std::cout << ipAddress << ":" << port << std::endl;
-  }
-}
-
 void TCPSocket::poll()
 {
   if (checkAndEmitError()) {

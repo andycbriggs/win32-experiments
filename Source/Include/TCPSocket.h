@@ -22,8 +22,6 @@ public:
   void setBlocking(const bool block);
   void setNoDelay(const bool noDelay);
 
-  void getPeerAddress();
-
   virtual void poll() override;
 
 };

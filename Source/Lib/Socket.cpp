@@ -40,6 +40,7 @@ std::pair<char*, unsigned short> Socket::getLocalAddress()
     unsigned short port = ntohs(local.sin_port);
     return std::pair<char*, unsigned short>(ipAddress, port);
   }
+  return std::pair<char*, unsigned short>(0, 0);
 }
 
 std::pair<char*, unsigned short> Socket::getRemoteAddress()
@@ -49,4 +50,5 @@ std::pair<char*, unsigned short> Socket::getRemoteAddress()
     unsigned short port = ntohs(remote.sin_port);
     return std::pair<char*, unsigned short>(ipAddress, port);
   }
+  return std::pair<char*, unsigned short>(0, 0);
 }

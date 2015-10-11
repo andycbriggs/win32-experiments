@@ -30,10 +30,9 @@ public:
 
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
         std::cout << "data received: " << ev.data << std::endl;
-        ev.socket->getPeerAddress();
         std::string incoming(ev.data);
-        message->reserve(message->size() + ev.dataLength);
 
+        message->reserve(message->size() + ev.dataLength);
         for (char& character : incoming) {
           if ((character >= 32) && (character <= 126)) {
             message->append(1, character);
