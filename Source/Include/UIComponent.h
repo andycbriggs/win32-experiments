@@ -1,6 +1,6 @@
 #pragma once
-#include <Windows.h>
-#include <gdiplus.h>
+
+#include "WindowsCommon.h"
 
 #include <functional>
 #include <map>

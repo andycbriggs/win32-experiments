@@ -1,5 +1,4 @@
 #include "../Include/Window.h"
-#include "../Include/UIComponent.h"
 
 // much of this class is inspired by https://github.com/LaurentGomila/SFML :D
 

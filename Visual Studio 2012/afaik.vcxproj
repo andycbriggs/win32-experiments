@@ -120,6 +120,7 @@
     <ClInclude Include="..\Source\Include\ImageComponent.h" />
     <ClInclude Include="..\Source\Include\SocketEvent.h" />
     <ClInclude Include="..\Source\Include\TCPSocket.h" />
+    <ClInclude Include="..\Source\Include\WindowsCommon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

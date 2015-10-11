@@ -1,7 +1,6 @@
 #pragma once
 
-#include <windows.h>
-#pragma comment(lib, "Ws2_32.lib")
+#include "WindowsCommon.h"
 
 #include <memory>
 #include <algorithm>

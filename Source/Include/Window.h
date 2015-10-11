@@ -1,7 +1,6 @@
 #pragma once
-#include <windows.h>
-#include <gdiplus.h>
-#pragma comment (lib, "Gdiplus.lib")
+
+#include "WindowsCommon.h"
 
 #include <string>
 #include <queue>

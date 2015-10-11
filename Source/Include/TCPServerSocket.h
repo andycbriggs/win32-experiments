@@ -1,7 +1,5 @@
 #pragma once
 
-#include <windows.h>
-
 #include "TCPSocket.h"
 
 class TCPServerSocket : public TCPSocket

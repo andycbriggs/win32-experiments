@@ -1,4 +1,3 @@
-
 #include "../Include/Notification.h"
 
 Notification::Notification(void)

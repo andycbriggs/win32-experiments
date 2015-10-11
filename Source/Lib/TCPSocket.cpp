@@ -64,7 +64,7 @@ void TCPSocket::bind(const char* ipaddress, const unsigned short port)
   sockaddr.sin_addr.s_addr = inet_addr(ipaddress);
   sockaddr.sin_port = htons(port);
 
-  m_error = ::bind(m_handle, (SOCKADDR *) &sockaddr, sizeof(sockaddr));
+  m_error = ::bind(m_handle, (SOCKADDR*) &sockaddr, sizeof(sockaddr));
   checkAndEmitError();
 }
 
@@ -81,6 +81,18 @@ void TCPSocket::setNoDelay(const bool noDelay)
   if (m_handle != INVALID_SOCKET) {
     char noDelay = 1;
     ::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) &noDelay, sizeof(noDelay));
+  }
+}
+
+void TCPSocket::getPeerAddress()
+{
+  if (m_handle != INVALID_SOCKET) {
+    sockaddr_in sockaddr = {0};
+    int namelen = 0;
+    ::getpeername(m_handle, (SOCKADDR*) &sockaddr, &namelen);
+    char buffer [sizeof(IN_ADDR)] = {0};
+
+    std::cout << buffer << std::endl;
   }
 }
 

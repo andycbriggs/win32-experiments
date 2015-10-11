@@ -75,6 +75,9 @@
     <ClInclude Include="..\Source\Include\Application.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Include\WindowsCommon.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Lib">
