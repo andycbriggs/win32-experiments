@@ -102,7 +102,7 @@ void TCPSocket::poll()
 
     if (!checkAndEmitError()) { // data was received
       SocketEvent ev;
-      ev.type = SocketEvent::Error;
+      ev.type = SocketEvent::Data;
       ev.data = buffer;
       ev.dataLength = readableSize;
       ev.socket = shared_from_this();

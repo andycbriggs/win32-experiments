@@ -27,6 +27,7 @@
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\EchoServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">

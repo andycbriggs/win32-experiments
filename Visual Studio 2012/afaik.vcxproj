@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\ClientServer.cpp" />
+    <ClCompile Include="..\Source\EchoServer.cpp" />
     <ClCompile Include="..\Source\Lib\Notification.cpp" />
     <ClCompile Include="..\Source\Lib\Socket.cpp" />
     <ClCompile Include="..\Source\Lib\TCPServerSocket.cpp" />
