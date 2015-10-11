@@ -4,6 +4,7 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #include <memory>
+#include <algorithm>
 
 #include "EventEmitter.h"
 #include "SocketEvent.h"
@@ -12,7 +13,7 @@
 class Socket : public EventEmitter<SocketEvent, SocketEvent::Type>, NonCopyable
 {
 public:
-  Socket(void) {};
+  Socket() { };
   Socket(SOCKET& handle) : m_handle(handle) {};
 
   virtual void poll() = 0;
@@ -24,6 +25,7 @@ protected:
   bool checkAndEmitError();
 
   static const int BUFFER_SIZE = 64 * 1024;
+  char buffer[BUFFER_SIZE];
 
   SOCKET m_handle;
   int m_error;

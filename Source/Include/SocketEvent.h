@@ -10,7 +10,8 @@ struct SocketEvent : public NonCopyable {
     Error,
     Data,
     Connection,
-    Connected
+    Connected,
+    Close
   };
   Type type;
   int error;

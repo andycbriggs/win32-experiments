@@ -17,7 +17,7 @@ TCPSocket::TCPSocket(SOCKET& handle) : Socket(handle)
 
 TCPSocket::~TCPSocket()
 {
-  close();
+
 }
 
 void TCPSocket::send(const char* data, const int& length)
@@ -44,6 +44,7 @@ void TCPSocket::connect(const char* ipaddress, const unsigned short port)
   {
     SocketEvent ev;
     ev.type = SocketEvent::Connected;
+    ev.socket = shared_from_this();
     trigger(ev);
   }
 }
@@ -53,7 +54,6 @@ void TCPSocket::close()
   if (m_handle) {
     ::shutdown(m_handle, 2);
     ::closesocket(m_handle);
-    m_handle = 0;
   }
 }
 
@@ -91,12 +91,14 @@ void TCPSocket::poll()
   };
 
   u_long readableSize = 0;
+
   m_error = ::ioctlsocket(m_handle, FIONREAD, &readableSize);
 
   if ((SOCKET_ERROR != m_error) && (readableSize > 0)) {
-    char buffer[BUFFER_SIZE] = {0};
 
     if (readableSize > BUFFER_SIZE) readableSize = BUFFER_SIZE;
+
+    memset(buffer, 0x0, BUFFER_SIZE);
 
     m_error = ::recv(m_handle, buffer, readableSize, 0);
 
@@ -108,5 +110,12 @@ void TCPSocket::poll()
       ev.socket = shared_from_this();
       trigger(ev);
     }
+  } else if (0 == ::recv(m_handle, buffer, BUFFER_SIZE, MSG_PEEK)) {
+    // socket closed
+    close();
+    SocketEvent ev;
+    ev.type = SocketEvent::Close;
+    ev.socket = shared_from_this();
+    trigger(ev);
   }
 }
