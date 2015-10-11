@@ -13,7 +13,7 @@
 class Socket : public EventEmitter<SocketEvent, SocketEvent::Type>, NonCopyable
 {
 public:
-  Socket() { };
+  Socket() { clearBuffer(); };
   Socket(SOCKET& handle) : m_handle(handle) {};
 
   virtual void poll() = 0;
@@ -23,9 +23,10 @@ public:
 
 protected:
   bool checkAndEmitError();
+  inline void clearBuffer() { std::fill(&buffer[0], &buffer[BUFFER_SIZE+1], '\0'); }
 
-  static const int BUFFER_SIZE = 64 * 1024;
-  char buffer[BUFFER_SIZE];
+  static const unsigned int BUFFER_SIZE = 64 * 1024;
+  char buffer[BUFFER_SIZE+1]; // use +1 here so that we can always have a null terminated array
 
   SOCKET m_handle;
   int m_error;

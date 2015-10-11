@@ -17,7 +17,7 @@ TCPSocket::TCPSocket(SOCKET& handle) : Socket(handle)
 
 TCPSocket::~TCPSocket()
 {
-
+  // socket must be closed by user code
 }
 
 void TCPSocket::send(const char* data, const int& length)
@@ -91,14 +91,12 @@ void TCPSocket::poll()
   };
 
   u_long readableSize = 0;
-
   m_error = ::ioctlsocket(m_handle, FIONREAD, &readableSize);
 
   if ((SOCKET_ERROR != m_error) && (readableSize > 0)) {
-
     if (readableSize > BUFFER_SIZE) readableSize = BUFFER_SIZE;
 
-    memset(buffer, 0x0, BUFFER_SIZE);
+    clearBuffer();
 
     m_error = ::recv(m_handle, buffer, readableSize, 0);
 
