@@ -32,3 +32,21 @@ bool Socket::checkAndEmitError()
   m_error = 0;
   return false;
 }
+
+std::pair<char*, unsigned short> Socket::getLocalAddress()
+{
+  if (m_handle != INVALID_SOCKET) {
+    char* ipAddress = inet_ntoa(local.sin_addr);
+    unsigned short port = ntohs(local.sin_port);
+    return std::pair<char*, unsigned short>(ipAddress, port);
+  }
+}
+
+std::pair<char*, unsigned short> Socket::getRemoteAddress()
+{
+  if (m_handle != INVALID_SOCKET) {
+    char* ipAddress = inet_ntoa(remote.sin_addr);
+    unsigned short port = ntohs(remote.sin_port);
+    return std::pair<char*, unsigned short>(ipAddress, port);
+  }
+}

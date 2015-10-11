@@ -5,10 +5,14 @@ TCPServerSocket::~TCPServerSocket() {}
 
 void TCPServerSocket::poll()
 {
-  SOCKET socket = ::accept(m_handle, 0, 0);
+  sockaddr_in acceptAddress = {0};
+  int length = sizeof(acceptAddress);
+  SOCKET socket = ::accept(m_handle, (sockaddr*) &acceptAddress, &length);
   if ((INVALID_SOCKET != socket) || (WSAEWOULDBLOCK != WSAGetLastError()))
   {
     std::shared_ptr<TCPSocket> newSocket = std::make_shared<TCPSocket>(socket);
+    newSocket->remote = acceptAddress;
+    newSocket->local = local;
     SocketEvent ev;
     ev.type = SocketEvent::Connection;
     ev.socket = newSocket;

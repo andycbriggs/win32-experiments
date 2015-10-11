@@ -11,11 +11,15 @@
 
 class Socket : public EventEmitter<SocketEvent, SocketEvent::Type>, NonCopyable
 {
+  friend class TCPServerSocket;
 public:
   Socket() { clearBuffer(); };
   Socket(SOCKET& handle) : m_handle(handle) {};
 
   virtual void poll() = 0;
+
+  std::pair<char*, unsigned short> getLocalAddress();
+  std::pair<char*, unsigned short> getRemoteAddress();
 
   inline bool operator==(const Socket& target){ return (m_handle == target.m_handle); };
   inline bool operator!=(const Socket& target){ return !(*this == target); };
@@ -29,4 +33,7 @@ protected:
 
   SOCKET m_handle;
   int m_error;
+
+  sockaddr_in local;
+  sockaddr_in remote;
 };
