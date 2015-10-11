@@ -24,11 +24,26 @@ public:
       
       clients.push_back(ev.socket);
 
+      std::shared_ptr<std::string> message = std::make_shared<std::string>();
+
       std::cout << "connection received, count: " << clients.size() << std::endl;
 
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
         std::cout << "data received: " << ev.data << std::endl;
-        ev.socket->send(ev.data, ev.dataLength);
+        std::string incoming(ev.data);
+        message->reserve(message->size() + ev.dataLength);
+        for (char& character : incoming) {
+          if ((character >= 32) && (character <= 126)) {
+            message->append(1, character);
+          } else if (character == 13) {
+            message->append(&character);
+            ev.socket->send(message->c_str());
+            message->clear();
+          } else {
+            // invalid char, void the buffer since this is likely a binary message, putty does this, its annoying
+            message->clear();
+          }
+        }
       });
 
       ev.socket->on(SocketEvent::Error, [=] (SocketEvent& ev) {
