@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 #include "Include\Application.h"
 #include "Include\TCPSocket.h"
@@ -29,7 +30,7 @@ public:
       std::cout << "connection received, count: " << clients.size() << std::endl;
 
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
-        std::cout << "data received: " << ev.data << std::endl;
+        //std::cout << "data received: " << ev.socket->getRemoteAddress().first << ": " << ev.data << std::endl;
         std::string incoming(ev.data);
 
         message->reserve(message->size() + ev.dataLength);
@@ -37,8 +38,10 @@ public:
           if ((character >= 32) && (character <= 126)) {
             message->append(1, character);
           } else if (character == 13) {
-            message->append(&character);
-            ev.socket->send(message->c_str());
+            message->append("\r\n");
+            std::ostringstream ss;
+            ss << ev.socket->getRemoteAddress().first << ": " << *message;
+            ev.socket->send(ss.str());
             message->clear();
           } else {
             // invalid char, void the buffer since this is likely a binary message, putty does this, its annoying
@@ -72,6 +75,7 @@ public:
         clientsIt->get()->poll();
         if (clientsIt != clients.end()) clientsIt++;
       }
+      Sleep(0);
     }
 
   };
