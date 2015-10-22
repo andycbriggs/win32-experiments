@@ -3,7 +3,7 @@
 #include <memory>
 #include "NonCopyable.h"
 
-class TCPSocket;
+class Socket;
 
 struct SocketEvent : public NonCopyable {
   enum Type {
@@ -17,5 +17,5 @@ struct SocketEvent : public NonCopyable {
   int error;
   char* data;
   int dataLength;
-  std::shared_ptr<TCPSocket> socket;
+  std::shared_ptr<Socket> socket;
 };

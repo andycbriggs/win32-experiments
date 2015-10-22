@@ -1,11 +1,12 @@
 
 #include "ClientServer.cpp"
 #include "EchoServer.cpp"
+#include "UDPTest.cpp"
 
 int main() 
 {
   
-  EchoServer app;
+  UDPTest app;
 
   app.run();
 

@@ -18,6 +18,23 @@ namespace {
   WinsockInit winsockInit;
 }
 
+void Socket::close()
+{
+  if (m_handle) {
+    ::shutdown(m_handle, 2);
+    ::closesocket(m_handle);
+  }
+}
+
+void Socket::setBlocking(const bool block)
+{
+  if (m_handle != INVALID_SOCKET) {
+    u_long argp = block ? 0 : (u_long) 1;
+    m_error = ::ioctlsocket(m_handle, FIONBIO, &argp);
+  }
+}
+
+
 bool Socket::checkAndEmitError()
 {
   if ((SOCKET_ERROR == m_error) && (WSAEWOULDBLOCK != WSAGetLastError()))

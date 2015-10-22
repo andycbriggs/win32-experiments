@@ -45,7 +45,8 @@ public:
       title->setText(std::to_wstring(ev.error));
     });
     socket->on(SocketEvent::Connection, [=] (SocketEvent& ev) {
-      clients.push_back(ev.socket);
+      std::shared_ptr<TCPSocket> socket = std::dynamic_pointer_cast<TCPSocket>(ev.socket);
+      clients.push_back(socket);
       title->setText(std::to_wstring(clients.size()));
       ev.socket->on(SocketEvent::Data, [=] (SocketEvent& ev) {
         int count = *ev.data;

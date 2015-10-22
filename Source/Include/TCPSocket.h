@@ -17,9 +17,7 @@ public:
 
   void connect(const char* ipaddress, const unsigned short port);
   void bind(const char* ipaddress, const unsigned short port);
-  void close();
 
-  void setBlocking(const bool block);
   void setNoDelay(const bool noDelay);
 
   virtual void poll() override;

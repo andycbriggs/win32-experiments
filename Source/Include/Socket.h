@@ -16,6 +16,9 @@ public:
   Socket() { clearBuffer(); };
   Socket(SOCKET& handle) : m_handle(handle) {};
 
+  virtual void close();
+  virtual void setBlocking(const bool block);
+
   virtual void poll() = 0;
 
   std::pair<char*, unsigned short> getLocalAddress();

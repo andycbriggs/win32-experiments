@@ -23,7 +23,7 @@ public:
 
     server.on(SocketEvent::Connection, [=] (SocketEvent& ev) {
       
-      clients.push_back(ev.socket);
+      clients.push_back(std::dynamic_pointer_cast<TCPSocket>(ev.socket));
 
       std::shared_ptr<std::string> message = std::make_shared<std::string>();
 
@@ -33,6 +33,8 @@ public:
         //std::cout << "data received: " << ev.socket->getRemoteAddress().first << ": " << ev.data << std::endl;
         std::string incoming(ev.data);
 
+        std::shared_ptr<TCPSocket> socket = std::dynamic_pointer_cast<TCPSocket>(ev.socket);
+
         message->reserve(message->size() + ev.dataLength);
         for (char& character : incoming) {
           if ((character >= 32) && (character <= 126)) {
@@ -41,7 +43,7 @@ public:
             message->append("\r\n");
             std::ostringstream ss;
             ss << ev.socket->getRemoteAddress().first << ": " << *message;
-            ev.socket->send(ss.str());
+            socket->send(ss.str());
             message->clear();
           } else {
             // invalid char, void the buffer since this is likely a binary message, putty does this, its annoying

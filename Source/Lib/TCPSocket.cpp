@@ -37,7 +37,7 @@ void TCPSocket::connect(const char* ipaddress, const unsigned short port)
   remote.sin_addr.s_addr = inet_addr(ipaddress);
   remote.sin_port = htons(port);
 
-  m_error = ::connect(m_handle, (SOCKADDR *) &remote, sizeof(sockaddr));
+  m_error = ::connect(m_handle, (sockaddr *) &remote, sizeof(sockaddr));
 
   if(!checkAndEmitError())
   {
@@ -45,14 +45,6 @@ void TCPSocket::connect(const char* ipaddress, const unsigned short port)
     ev.type = SocketEvent::Connected;
     ev.socket = shared_from_this();
     trigger(ev);
-  }
-}
-
-void TCPSocket::close()
-{
-  if (m_handle) {
-    ::shutdown(m_handle, 2);
-    ::closesocket(m_handle);
   }
 }
 
@@ -66,19 +58,11 @@ void TCPSocket::bind(const char* ipaddress, const unsigned short port)
   checkAndEmitError();
 }
 
-void TCPSocket::setBlocking(const bool block)
-{
-  if (m_handle != INVALID_SOCKET) {
-    u_long nonBlocking = block ? 0 : (u_long) 1;
-    m_error = ::ioctlsocket(m_handle, FIONBIO, &nonBlocking);
-  }
-}
-
 void TCPSocket::setNoDelay(const bool noDelay)
 {
   if (m_handle != INVALID_SOCKET) {
-    char noDelay = 1;
-    ::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) &noDelay, sizeof(noDelay));
+    char optval = noDelay ? 1 : 0;
+    ::setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*) &optval, sizeof(char));
   }
 }
 
@@ -103,7 +87,7 @@ void TCPSocket::poll()
       ev.type = SocketEvent::Data;
       ev.data = buffer;
       ev.dataLength = readableSize;
-      ev.socket = shared_from_this();
+      ev.socket = std::dynamic_pointer_cast<Socket>(shared_from_this());
       trigger(ev);
     }
   } else if (0 == ::recv(m_handle, buffer, BUFFER_SIZE, MSG_PEEK)) {
@@ -111,7 +95,7 @@ void TCPSocket::poll()
     close();
     SocketEvent ev;
     ev.type = SocketEvent::Close;
-    ev.socket = shared_from_this();
+    ev.socket = std::dynamic_pointer_cast<Socket>(shared_from_this());
     trigger(ev);
   }
 }

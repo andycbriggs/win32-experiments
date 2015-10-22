@@ -28,6 +28,10 @@
     </ClCompile>
     <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\EchoServer.cpp" />
+    <ClCompile Include="..\Source\UDPTest.cpp" />
+    <ClCompile Include="..\Source\Lib\UDPSocket.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Include\ImageComponent.h">
@@ -76,6 +80,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Include\WindowsCommon.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Include\UDPSocket.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
