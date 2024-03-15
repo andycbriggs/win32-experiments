@@ -1,4 +1,4 @@
-# afaik
+# win32-experiments
 
 A sketchbook of approaches to working with the win32 api using modern c++.
 
@@ -27,7 +27,6 @@ socket->on(SocketEvent::Error, [=] (SocketEvent ev) {
 });
 socket->on(SocketEvent::Connection, [=] (SocketEvent ev) {
   status->setText(L"Connection Received");
-  clients.push_back(ev.socket);
   ev.socket->on(SocketEvent::Data, [=] (SocketEvent ev) {
     status->setText(data);
   });
